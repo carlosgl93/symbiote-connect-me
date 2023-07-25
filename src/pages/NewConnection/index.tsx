@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./styles.css";
 import { Select } from "../../components";
 import dataSet from "../../dataSet";
@@ -9,30 +10,32 @@ import {
 
 export const NewConnection = () => {
   const [name, setName] = useState("");
-  const [firstStop, setFirstStop] = useState<null | string>(null);
-  const [secondStop, setSecondStop] = useState<null | string>(null);
-  const [thirdStop, setThirdStop] = useState<null | string>(null);
+  const [formStops, setFormStops] = useState<string[]>([]);
+  // const [firstStop, setFirstStop] = useState<null | string>(null);
+  // const [secondStop, setSecondStop] = useState<null | string>(null);
+  // const [thirdStop, setThirdStop] = useState<null | string>(null);
   const [renderThirdStop, setRenderThirdStop] = useState(false);
   const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(false);
 
   const { stops } = dataSet;
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (!firstStop || !secondStop) {
-      // this will never happen but...
-      // on the backedn it must be validated anyway.
-      // its always worth to validate in the front and back
-      // since:
-      // 1. better safe than sorry
-      // 2. if validations fail in the front that is one server
-      // req less == less cost per server
-      setError("A connection needs at least two stops");
-      setTimeout(() => {
-        setError(null);
-      }, 5000);
-      return;
-    }
+    // if (!firstStop || !secondStop) {
+    //   // this will never happen but...
+    //   // on the backedn it must be validated anyway.
+    //   // its always worth to validate in the front and back
+    //   // since:
+    //   // 1. better safe than sorry
+    //   // 2. if validations fail in the front that is one server
+    //   // req less == less cost per server
+    //   setError("A connection needs at least two stops");
+    //   setTimeout(() => {
+    //     setError(null);
+    //   }, 5000);
+    //   return;
+    // }
     // check connection name
     if (checkNameNotNullOrTooShort(name)) {
       setError("Connections must have a name longer than 3 characters.");
@@ -45,15 +48,35 @@ export const NewConnection = () => {
     // validate correct stops
     // this could be improved by removing the option that has already been selected
     // so the user COUDNT be mistaken and may increase the UX
-    if (checkRepeatedStops(firstStop!, secondStop!, thirdStop)) {
-      setError(
-        "Connections cant have the same stop more than once in a route."
+    // if (checkRepeatedStops(firstStop!, secondStop!, thirdStop)) {
+    //   setError(
+    //     "Connections cant have the same stop more than once in a route."
+    //   );
+    //   setTimeout(() => {
+    //     setError(null);
+    //   }, 5000);
+    //   return;
+    // }
+
+    const newConnection = {
+      title: name,
+      stops: formStops,
+    };
+    console.log(newConnection);
+
+    setLoading(true);
+
+    try {
+      const result = await axios.post(
+        "http://localhost:3001/connections",
+        newConnection
       );
-      setTimeout(() => {
-        setError(null);
-      }, 5000);
-      return;
+      console.log(result, "result");
+    } catch (error) {
+      // setError(error);
+      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
@@ -76,10 +99,10 @@ export const NewConnection = () => {
           />
         </div>
 
-        <Select stops={stops} setStop={setFirstStop} />
-        <Select stops={stops} setStop={setSecondStop} />
+        <Select stops={stops} setStop={setFormStops} />
+        <Select stops={stops} setStop={setFormStops} />
 
-        {renderThirdStop && <Select stops={stops} setStop={setThirdStop} />}
+        {renderThirdStop && <Select stops={stops} setStop={setFormStops} />}
 
         <div className="CTAs">
           <button
@@ -91,9 +114,7 @@ export const NewConnection = () => {
 
           <button
             type="submit"
-            disabled={
-              name.length === 0 || firstStop === null || secondStop === null
-            }
+            disabled={name.length === 0 || formStops.length < 2}
           >
             Create
           </button>

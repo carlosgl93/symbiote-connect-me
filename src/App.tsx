@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "./components";
 import { Connection, Home, NewConnection } from "./pages";
+import "./App.css";
 
 function App() {
   return (

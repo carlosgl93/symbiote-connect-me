@@ -1,2 +1,3 @@
 export * from "./Layout/Layout";
-export * from "./Select/Select";
+export * from "./Select";
+export * from "./Nav";
