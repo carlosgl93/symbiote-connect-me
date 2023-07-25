@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./styles.css";
 import { Select } from "../../components";
 import dataSet from "../../dataSet";
 import {
@@ -21,14 +22,16 @@ export const NewConnection = () => {
     if (!firstStop || !secondStop) {
       // this will never happen but...
       // on the backedn it must be validated anyway.
-      // i think its always worth to validate in the front and back
+      // its always worth to validate in the front and back
       // since:
       // 1. better safe than sorry
-      // 2. if validations are failed in the front that is one server req less == less cost per server
+      // 2. if validations fail in the front that is one server
+      // req less == less cost per server
       setError("A connection needs at least two stops");
       setTimeout(() => {
         setError(null);
       }, 5000);
+      return;
     }
     // check connection name
     if (checkNameNotNullOrTooShort(name)) {
@@ -36,6 +39,7 @@ export const NewConnection = () => {
       setTimeout(() => {
         setError(null);
       }, 5000);
+      return;
     }
 
     // validate correct stops
@@ -48,42 +52,52 @@ export const NewConnection = () => {
       setTimeout(() => {
         setError(null);
       }, 5000);
+      return;
     }
   };
 
   return (
-    <main>
-      <form onSubmit={handleSubmit} style={{}}>
-        {error && <section>{error}</section>}
+    <main className="mainContainer">
+      <div className="titleContainer">
+        <h1 className="title">Create a new connection</h1>
+      </div>
+      <form onSubmit={handleSubmit} className="form">
+        {error && <h2>{error}</h2>}
 
-        <label htmlFor="title">Name</label>
-        <input
-          name="title"
-          type="text"
-          placeholder="To Work"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <div className="nameContainer">
+          <label htmlFor="title">Name:</label>
+          <input
+            name="title"
+            type="text"
+            placeholder="To Work"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="nameInput"
+          />
+        </div>
 
         <Select stops={stops} setStop={setFirstStop} />
         <Select stops={stops} setStop={setSecondStop} />
 
         {renderThirdStop && <Select stops={stops} setStop={setThirdStop} />}
-        <button
-          type="button"
-          onClick={() => setRenderThirdStop(!renderThirdStop)}
-        >
-          {renderThirdStop ? "Remove third stop" : "Add another stop"}
-        </button>
 
-        <button
-          type="submit"
-          disabled={
-            name.length === 0 || firstStop === null || secondStop === null
-          }
-        >
-          Create
-        </button>
+        <div className="CTAs">
+          <button
+            type="button"
+            onClick={() => setRenderThirdStop(!renderThirdStop)}
+          >
+            {renderThirdStop ? "Remove third stop" : "Add another stop"}
+          </button>
+
+          <button
+            type="submit"
+            disabled={
+              name.length === 0 || firstStop === null || secondStop === null
+            }
+          >
+            Create
+          </button>
+        </div>
       </form>
     </main>
   );
