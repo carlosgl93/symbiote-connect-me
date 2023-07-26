@@ -97,121 +97,133 @@
   ],
   "connections": [
     {
-      "id": "1",
-      "title": "Home to work",
-      "stops": [
-        "31845",
-        "1071"
-      ]
-    },
-    {
-      "firstStopWhole": {
-        "id": "2273",
-        "mode": "tram",
-        "title": "Clarendon St/Park St #24"
-      },
-      "secondStopWhole": {
-        "id": "1071",
-        "mode": "train",
-        "title": "Flinders Street Station"
-      },
-      "thirdStopWhole": {
-        "id": "1071",
-        "mode": "train",
-        "title": "Flinders Street Station"
-      },
-      "id": "YJv1fqM"
-    },
-    {
-      "title": "work to home",
+      "title": "Name",
       "stops": [
         "2273",
         "1071",
-        null
+        "31845"
       ],
-      "id": "sVa5F_z"
+      "id": 1
+    },
+    {
+      "title": "Second",
+      "stops": [
+        "2273",
+        "1071",
+        "31845",
+        "1071",
+        "2273"
+      ],
+      "id": 2
+    },
+    {
+      "title": "Bar",
+      "stops": [
+        "2273",
+        "1071",
+        "2273",
+        "2273",
+        "1071"
+      ],
+      "id": 3
     },
     {
       "title": "asdf",
-      "stops": "1071",
-      "id": "d7pYkFc"
-    },
-    {
-      "title": "works?",
       "stops": [
-        {
-          "id": "2273",
-          "mode": "tram",
-          "title": "Clarendon St/Park St #24"
-        },
-        {
-          "id": "1071",
-          "mode": "train",
-          "title": "Flinders Street Station"
-        },
-        {
-          "id": "31845",
-          "mode": "bus",
-          "title": "Footscray Station / Irving St"
-        },
-        "31845"
-      ],
-      "id": "9g2PevS"
-    },
-    {
-      "title": "college",
-      "stops": [
-        {
-          "id": "2273",
-          "mode": "tram",
-          "title": "Clarendon St/Park St #24"
-        },
-        {
-          "id": "1071",
-          "mode": "train",
-          "title": "Flinders Street Station"
-        },
-        {
-          "id": "31845",
-          "mode": "bus",
-          "title": "Footscray Station / Irving St"
-        },
+        "2273",
+        "1071",
+        "2273",
+        "2273",
         "1071"
       ],
-      "id": "8SdrAiC"
+      "id": 4
     },
     {
-      "title": "from college",
+      "title": "asdf",
       "stops": [
-        {
-          "id": "2273",
-          "mode": "tram",
-          "title": "Clarendon St/Park St #24"
-        },
-        {
-          "id": "1071",
-          "mode": "train",
-          "title": "Flinders Street Station"
-        },
-        {
-          "id": "31845",
-          "mode": "bus",
-          "title": "Footscray Station / Irving St"
-        },
+        "2273",
+        "1071"
+      ],
+      "id": 5
+    },
+    {
+      "title": "asdf",
+      "stops": [
+        "2273",
+        "1071"
+      ],
+      "id": 6
+    },
+    {
+      "title": "asdf",
+      "stops": [
+        "2273",
+        "1071"
+      ],
+      "id": 7
+    },
+    {
+      "title": "asdf",
+      "stops": [
+        "2273",
+        "1071"
+      ],
+      "id": 8
+    },
+    {
+      "title": "asdf",
+      "stops": [
+        "2273",
+        "1071"
+      ],
+      "id": 9
+    },
+    {
+      "title": "asdf",
+      "stops": [
+        "2273",
+        "1071"
+      ],
+      "id": 10
+    },
+    {
+      "title": "asdf",
+      "stops": [
         "1071",
+        "31845",
+        "2273"
+      ],
+      "id": 11
+    },
+    {
+      "title": "asdf",
+      "stops": [
+        "1071",
+        "31845",
+        "2273",
+        "2273",
         "1071",
         "31845"
       ],
-      "id": "xHnazHC"
+      "id": 12
     },
     {
-      "title": "asdfasdf",
+      "title": "wer",
       "stops": [
         "2273",
         "2273",
         "1071"
       ],
-      "id": "u3z58qq"
+      "id": 13
+    },
+    {
+      "title": "navigate",
+      "stops": [
+        "2273",
+        "2273",
+        "1071"
+      ],
+      "id": 14
     }
   ]
 }

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./styles.css";
 import { Select } from "../../components";
 import dataSet from "../../dataSet";
+import axios from "axios";
 import {
   checkNameNotNullOrTooShort,
   checkRepeatedStops,
@@ -11,12 +12,10 @@ import {
 export const NewConnection = () => {
   const [name, setName] = useState("");
   const [formStops, setFormStops] = useState<string[]>([]);
-  // const [firstStop, setFirstStop] = useState<null | string>(null);
-  // const [secondStop, setSecondStop] = useState<null | string>(null);
-  // const [thirdStop, setThirdStop] = useState<null | string>(null);
   const [renderThirdStop, setRenderThirdStop] = useState(false);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const { stops } = dataSet;
 
@@ -72,11 +71,13 @@ export const NewConnection = () => {
         newConnection
       );
       console.log(result, "result");
+      setLoading(false);
+      setFormStops([]);
+      return navigate(`/connection/${result.data.id}`);
     } catch (error) {
       // setError(error);
       setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -87,38 +88,44 @@ export const NewConnection = () => {
       <form onSubmit={handleSubmit} className="form">
         {error && <h2>{error}</h2>}
 
-        <div className="nameContainer">
-          <label htmlFor="title">Name:</label>
-          <input
-            name="title"
-            type="text"
-            placeholder="To Work"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="nameInput"
-          />
-        </div>
+        {loading ? (
+          <h3>Loading...</h3>
+        ) : (
+          <>
+            <div className="nameContainer">
+              <label htmlFor="title">Name:</label>
+              <input
+                name="title"
+                type="text"
+                placeholder="To Work"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="nameInput"
+              />
+            </div>
 
-        <Select stops={stops} setStop={setFormStops} />
-        <Select stops={stops} setStop={setFormStops} />
+            <Select stops={stops} setStop={setFormStops} />
+            <Select stops={stops} setStop={setFormStops} />
 
-        {renderThirdStop && <Select stops={stops} setStop={setFormStops} />}
+            {renderThirdStop && <Select stops={stops} setStop={setFormStops} />}
 
-        <div className="CTAs">
-          <button
-            type="button"
-            onClick={() => setRenderThirdStop(!renderThirdStop)}
-          >
-            {renderThirdStop ? "Remove third stop" : "Add another stop"}
-          </button>
+            <div className="CTAs">
+              <button
+                type="button"
+                onClick={() => setRenderThirdStop(!renderThirdStop)}
+              >
+                {renderThirdStop ? "Remove third stop" : "Add another stop"}
+              </button>
 
-          <button
-            type="submit"
-            disabled={name.length === 0 || formStops.length < 2}
-          >
-            Create
-          </button>
-        </div>
+              <button
+                type="submit"
+                disabled={name.length === 0 || formStops.length < 2}
+              >
+                Create
+              </button>
+            </div>
+          </>
+        )}
       </form>
     </main>
   );
