@@ -1,35 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import "./styles.css";
-import connectionsService from "../../services/connections";
 import { Link } from "react-router-dom";
+import { ConnectionsContext } from "../../state/ConnectionsContext";
 
 export const Home = () => {
-  const [data, setData] = useState<null | any[]>(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    try {
-      connectionsService.getAllConnections().then((res) => {
-        setData(() => res);
-        setLoading(false);
-      });
-    } catch (error) {
-      console.log(`error fetching connections`, error);
-      setLoading(false);
-    }
-  }, []);
+  const { connections } = useContext(ConnectionsContext);
 
   return (
     <main>
-      <div>
+      <div className="title">
         <h1>My Connections</h1>
       </div>
 
       <div>
-        {loading && <p>Loading...</p>}
-        {data && data.length > 0 ? (
-          data.map((c) => (
+        {connections?.length ? (
+          connections.map((c) => (
             <div key={c.id}>
               <Link to={`/connection/${c.id}`}>{c.title}</Link>
             </div>
@@ -40,9 +25,7 @@ export const Home = () => {
       </div>
 
       <div className="ctaContainer">
-        <button type="button">
-          <Link to="/new-connection">Add New</Link>
-        </button>
+        <Link to="/new-connection">Add New</Link>
       </div>
     </main>
   );

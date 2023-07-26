@@ -6,5 +6,8 @@ interface ContextProps {
   stops: Stop[] | undefined;
   routes: Route[] | undefined;
   departures: Departure[] | undefined;
+  setConnections: React.Dispatch<
+    React.SetStateAction<Connection[] | undefined>
+  >;
 }
 export const ConnectionsContext = createContext({} as ContextProps);

@@ -9,9 +9,9 @@ export const Nav = () => {
         <li>
           <Link to="/">Home</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/connection">Connections</Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );

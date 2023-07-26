@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
 import { Select } from "../../components";
-import dataSet from "../../dataSet";
 import axios from "axios";
+import { ConnectionsContext } from "../../state/ConnectionsContext";
 import {
   checkNameNotNullOrTooShort,
   checkRepeatedStops,
@@ -17,24 +17,23 @@ export const NewConnection = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { stops } = dataSet;
+  const { stops, setConnections } = useContext(ConnectionsContext);
+
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (formStops.find((f) => f === e.target.value)) {
+      setError("Make sure to not select the same stop twice");
+      return;
+    } else {
+      setError(null);
+      setFormStops((prev) => [...prev, e.target.value]);
+    }
+  };
+
+  console.log({ error });
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    // if (!firstStop || !secondStop) {
-    //   // this will never happen but...
-    //   // on the backedn it must be validated anyway.
-    //   // its always worth to validate in the front and back
-    //   // since:
-    //   // 1. better safe than sorry
-    //   // 2. if validations fail in the front that is one server
-    //   // req less == less cost per server
-    //   setError("A connection needs at least two stops");
-    //   setTimeout(() => {
-    //     setError(null);
-    //   }, 5000);
-    //   return;
-    // }
+
     // check connection name
     if (checkNameNotNullOrTooShort(name)) {
       setError("Connections must have a name longer than 3 characters.");
@@ -47,15 +46,16 @@ export const NewConnection = () => {
     // validate correct stops
     // this could be improved by removing the option that has already been selected
     // so the user COUDNT be mistaken and may increase the UX
-    // if (checkRepeatedStops(firstStop!, secondStop!, thirdStop)) {
-    //   setError(
-    //     "Connections cant have the same stop more than once in a route."
-    //   );
-    //   setTimeout(() => {
-    //     setError(null);
-    //   }, 5000);
-    //   return;
-    // }
+    if (checkRepeatedStops(formStops)) {
+      setError(
+        "Connections cant have the same stop more than once in a route."
+      );
+      setTimeout(() => {
+        setError(null);
+        setFormStops(() => []);
+      }, 5000);
+      return;
+    }
 
     const newConnection = {
       title: name,
@@ -70,12 +70,13 @@ export const NewConnection = () => {
         "http://localhost:3001/connections",
         newConnection
       );
-      console.log(result, "result");
       setLoading(false);
-      setFormStops([]);
-      return navigate(`/connection/${result.data.id}`);
+      setFormStops(() => []);
+      const newCon = result.data;
+      setConnections((prev) => prev?.concat(newCon));
+      return navigate(`/connection/${newCon.id}`);
     } catch (error) {
-      // setError(error);
+      // setError(error.message);
       setLoading(false);
     }
   };
@@ -86,7 +87,7 @@ export const NewConnection = () => {
         <h1 className="title">Create a new connection</h1>
       </div>
       <form onSubmit={handleSubmit} className="form">
-        {error && <h2>{error}</h2>}
+        {error && <h4>{error}</h4>}
 
         {loading ? (
           <h3>Loading...</h3>
@@ -104,10 +105,16 @@ export const NewConnection = () => {
               />
             </div>
 
-            <Select stops={stops} setStop={setFormStops} />
-            <Select stops={stops} setStop={setFormStops} />
+            <Select value={formStops[0]} stops={stops} setStop={handleSelect} />
+            <Select value={formStops[1]} stops={stops} setStop={handleSelect} />
 
-            {renderThirdStop && <Select stops={stops} setStop={setFormStops} />}
+            {renderThirdStop && (
+              <Select
+                value={formStops[2]}
+                stops={stops}
+                setStop={handleSelect}
+              />
+            )}
 
             <div className="CTAs">
               <button
@@ -119,7 +126,11 @@ export const NewConnection = () => {
 
               <button
                 type="submit"
-                disabled={name.length === 0 || formStops.length < 2}
+                disabled={
+                  name.length === 0 || renderThirdStop
+                    ? formStops.length < 3
+                    : formStops.length < 2
+                }
               >
                 Create
               </button>

@@ -38,6 +38,15 @@ const getAllConnections = async () => {
   }
 };
 
+const getConnectionById = async (id: string) => {
+  try {
+    const res = await axios.get(`${connectionsEndpoint}/:${id}`);
+    return res.data;
+  } catch (error) {
+    console.log(`there was an error fetching id: ${id} `, error);
+  }
+};
+
 const createConnection = async (newConnection: Connection) => {
   try {
     const res = await axios.post<Stop>(connectionsEndpoint, newConnection);
@@ -47,4 +56,9 @@ const createConnection = async (newConnection: Connection) => {
   }
 };
 
-export default { getAll, getAllConnections, createConnection };
+export default {
+  getAll,
+  getAllConnections,
+  getConnectionById,
+  createConnection,
+};

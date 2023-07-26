@@ -1,17 +1,14 @@
 export const checkNameNotNullOrTooShort = (name: string | null) =>
   name === null ? true : name.length < 3 ? true : false;
 
-export const checkRepeatedStops = (
-  fStop: string,
-  sStop: string,
-  tStop: string | null
-  // since i disabled the submit button based on the value of
-  // firstStop and secondstop, the only nullable stop is the third one
-) =>
-  fStop === sStop
+export const checkRepeatedStops = (stops: string[]) => {
+  console.log(stops);
+
+  return stops[0] === stops[1]
     ? true
-    : fStop === tStop
+    : stops[0] === stops[2]
     ? true
-    : sStop === tStop
+    : stops[1] === stops[2]
     ? true
     : false;
+};
