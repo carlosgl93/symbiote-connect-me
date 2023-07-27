@@ -25,3 +25,4 @@ Run one of the following commands:
     "deploy": "host/cloud provider of choice deploy command -- this would only deploy the back",
     "deploy:full": "npm run build:ui && npm run lint && npm run deploy",
 }`
+3. mobile first because of the nature of the app being a transport app i assume the user would use it more on a phone.

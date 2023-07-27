@@ -29,8 +29,6 @@ export const NewConnection = () => {
     }
   };
 
-  console.log({ error });
-
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
@@ -46,6 +44,8 @@ export const NewConnection = () => {
     // validate correct stops
     // this could be improved by removing the option that has already been selected
     // so the user COUDNT be mistaken and may increase the UX
+    // finally i opted to not le the user submit the form if the option has been already selected
+    // see handleSubmit for reference
     if (checkRepeatedStops(formStops)) {
       setError(
         "Connections cant have the same stop more than once in a route."
@@ -61,7 +61,6 @@ export const NewConnection = () => {
       title: name,
       stops: formStops,
     };
-    console.log(newConnection);
 
     setLoading(true);
 

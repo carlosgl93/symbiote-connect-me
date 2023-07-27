@@ -38,7 +38,6 @@ export const Connection = () => {
         const deps = departures!.filter((d) => route?.directions[d.direction]);
         return <Stop key={stop?.id} deps={deps} route={route} stop={stop} />;
       })}
-      <div></div>
     </div>
   );
 };
