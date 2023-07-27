@@ -3,3 +3,5 @@ export type Connection = {
   title: string;
   stops: string[];
 };
+
+export type NewConnection = Omit<Connection, "id">;

@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
-import "./styles.css";
 import { Link } from "react-router-dom";
-import { ConnectionsContext } from "../../state/ConnectionsContext";
+import { useSelector } from "react-redux";
+import { Data } from "../../types";
+import "./styles.css";
 
 export const Home = () => {
-  const { connections } = useContext(ConnectionsContext);
+  const connections = useSelector((state: Data) => state.connections);
 
   return (
     <main>

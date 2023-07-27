@@ -1,13 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./styles.css";
-import { Select } from "../../components";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { ConnectionsContext } from "../../state/ConnectionsContext";
+import { Select } from "../../components";
+import { createConnection } from "../../state/reducers/connectionReducer";
 import {
   checkNameNotNullOrTooShort,
   checkRepeatedStops,
 } from "../../validations/newConnection";
+import { Connection, Data } from "../../types";
+import "./styles.css";
 
 export const NewConnection = () => {
   const [name, setName] = useState("");
@@ -16,8 +18,8 @@ export const NewConnection = () => {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const { stops, setConnections } = useContext(ConnectionsContext);
+  const dispatch = useDispatch();
+  const stops = useSelector((state: Data) => state.stops);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (formStops.find((f) => f === e.target.value)) {
@@ -71,11 +73,12 @@ export const NewConnection = () => {
       );
       setLoading(false);
       setFormStops(() => []);
-      const newCon = result.data;
-      setConnections((prev) => prev?.concat(newCon));
+      const newCon: Connection = result.data;
+      dispatch(createConnection(newCon));
+
       return navigate(`/connection/${newCon.id}`);
     } catch (error) {
-      // setError(error.message);
+      setError("There was an error saving the connection");
       setLoading(false);
     }
   };

@@ -1,18 +1,15 @@
-import React, { useContext } from "react";
-import "./styles.css";
 import { useParams } from "react-router-dom";
 import { Stop } from "../../components/Stop";
-import { ConnectionsContext } from "../../state/ConnectionsContext";
-import { Connection as ConnectionType } from "../../types";
+import { Connection as ConnectionType, Data } from "../../types";
+import { useSelector } from "react-redux";
+import "./styles.css";
 
 export const Connection = () => {
   const { id } = useParams();
-
-  console.log("id", id);
-  const { connections, stops, routes, departures } =
-    useContext(ConnectionsContext);
-
-  console.log("connections", connections);
+  const connections = useSelector((state: Data) => state.connections);
+  const stops = useSelector((state: Data) => state.stops);
+  const departures = useSelector((state: Data) => state.departures);
+  const routes = useSelector((state: Data) => state.routes);
 
   const conToRender: ConnectionType | undefined = connections?.find(
     (c) => String(c.id) === id

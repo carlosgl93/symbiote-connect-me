@@ -97,7 +97,7 @@
   ],
   "connections": [
     {
-      "title": "asdfsdf",
+      "title": "asdfasdfasd",
       "stops": [
         "2273",
         "1071"
@@ -105,44 +105,42 @@
       "id": 1
     },
     {
-      "title": "asdfasdasdcasdc",
-      "stops": [
-        "31845",
-        "2273"
-      ],
-      "id": 2
-    },
-    {
-      "title": "asdfa",
+      "title": "asdfasdf",
       "stops": [
         "2273",
         "1071"
       ],
+      "id": 2
+    },
+    {
+      "title": "asdfasdf",
+      "stops": [
+        "2273",
+        "31845"
+      ],
       "id": 3
     },
     {
-      "title": "asdfasd",
+      "title": "with redux",
       "stops": [
         "2273",
-        "1071",
-        "31845"
+        "1071"
       ],
       "id": 4
     },
     {
-      "title": "asdfadf",
+      "title": "render",
       "stops": [
         "2273",
-        "31845"
+        "1071"
       ],
       "id": 5
     },
     {
-      "title": "fefefe",
+      "title": "reworkd",
       "stops": [
         "2273",
-        "1071",
-        "31845"
+        "1071"
       ],
       "id": 6
     }
